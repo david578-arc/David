@@ -1,0 +1,16 @@
+.reports-container { padding: 16px; }
+.reports-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.report-form, .reports-list { background: #0b132b; border: 1px solid #243b55; border-radius: 12px; padding: 12px; margin-top: 12px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group > label { font-weight: 600; margin-bottom: 4px; }
+.form-group > input, .form-group > select, .form-group > textarea { background: #0c1a33; color: #c9d6ff; border: 1px solid #243b55; border-radius: 8px; padding: 8px 10px; }
+.row { display: flex; gap: 8px; }
+.row.right { justify-content: flex-end; }
+.btn { background: #3a5ba0; color: white; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+.btn.danger { background: #b02121; }
+.report-item { display: flex; justify-content: space-between; border: 1px solid #243b55; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+.report-title { font-weight: 700; }
+.report-meta { opacity: 0.8; font-size: 12px; margin: 4px 0; }
+.report-summary { margin: 4px 0; }
+

@@ -1,0 +1,12 @@
+.press-container { padding: 16px; }
+.press-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.press-form, .press-list { background: #0b132b; border: 1px solid #243b55; border-radius: 12px; padding: 12px; margin-top: 12px; }
+.form-group { display: flex; flex-direction: column; margin-bottom: 8px; }
+.form-group > label { font-weight: 600; margin-bottom: 4px; }
+.form-group > input, .form-group > textarea { background: #0c1a33; color: #c9d6ff; border: 1px solid #243b55; border-radius: 8px; padding: 8px 10px; }
+.row { display: flex; gap: 8px; }
+.row.right { justify-content: flex-end; }
+.btn { background: #3a5ba0; color: white; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+.press-item { border: 1px solid #243b55; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+.press-meta { opacity: 0.9; margin-bottom: 6px; }
+
