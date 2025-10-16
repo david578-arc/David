@@ -1,0 +1,24 @@
+.tactics-container {
+  padding: 16px;
+}
+.tactics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.tabs { display: flex; gap: 8px; }
+.tab { background: #0b132b; color: #c9d6ff; border: 1px solid #243b55; border-radius: 8px; padding: 6px 10px; }
+.tab.active { background: #1f2a44; border-color: #3a5ba0; }
+.tactics-message { background: #1f3a27; color: #d0ffd8; padding: 8px 10px; border: 1px solid #1a6b2f; border-radius: 8px; margin-bottom: 12px; }
+.tactics-section { background: #0b132b; border: 1px solid #243b55; border-radius: 12px; padding: 12px; }
+.tactics-controls { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-bottom: 12px; }
+.row { display: flex; gap: 8px; }
+.btn { background: #3a5ba0; color: white; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group > label { font-weight: 600; margin-bottom: 4px; }
+.form-group > textarea, .form-group > input, .tactics-controls select, .tactics-controls input { background: #0c1a33; color: #c9d6ff; border: 1px solid #243b55; border-radius: 8px; padding: 8px 10px; }
+
+.pitch { position: relative; width: 100%; padding-top: 60%; background: #124e1e; border-radius: 12px; border: 2px solid #0f3d18; overflow: hidden; }
+.halfway-line { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.4);}
+.center-circle { position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 2px solid rgba(255,255,255,0.5); border-radius: 50%; transform: translate(-50%, -50%);}
+.penalty-box.top { position: absolute; top: 0; left: 25%; width: 50%; height: 18%; border: 2px solid rgba(255,255,255,0.5); border-top: none; }
+.penalty-box.bottom { position: absolute; bottom: 0; left: 25%; width: 50%; height: 18%; border: 2px solid rgba(255,255,255,0.5); border-bottom: none; }
+.player-dot { position: absolute; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: #243b55; color: #c9d6ff; display: flex; align-items: center; justify-content: center; border: 2px solid #3a5ba0; cursor: grab; user-select: none; }
+

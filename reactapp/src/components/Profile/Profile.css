@@ -1,0 +1,146 @@
+/* Profile.css */
+.profile-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.profile-title {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.message-box {
+  padding: 12px;
+  background-color: #e0ffe0;
+  color: #2d702d;
+  border-left: 5px solid #2d702d;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.loader-container {
+  text-align: center;
+  padding: 100px 0;
+  font-size: 18px;
+  color: #777;
+}
+
+.profile-summary {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.profile-image-section {
+  flex: 1 1 120px;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #4a90e2;
+}
+
+.upload-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.upload-label input {
+  display: none;
+}
+
+.profile-info {
+  flex: 2 1 60%;
+  line-height: 1.7;
+  font-size: 16px;
+  color: #444;
+}
+
+.profile-form label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.profile-form input:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.profile-form button {
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.profile-form button[type="submit"] {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.profile-form button[type="submit"]:hover {
+  background-color: #357ab8;
+}
+
+.reset-btn {
+  background-color: #eaeaea;
+  color: #333;
+}
+
+.reset-btn:hover {
+  background-color: #d5d5d5;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .profile-summary {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-info {
+    text-align: center;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,15 @@
+.card { background: #fff; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 16px; margin-top: 12px; }
+.ms-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.ms-status { font-size: 12px; padding: 4px 8px; border-radius: 999px; text-transform: capitalize; }
+.ms-status.scheduled { background: #e8f0fe; color: #1a73e8; }
+.ms-status.live { background: #ffe8e8; color: #d93025; }
+.ms-status.completed { background: #e6f4ea; color: #188038; }
+.ms-score { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 12px 0; }
+.ms-score .team { text-align: center; }
+.ms-score .label { font-size: 12px; color: #666; }
+.ms-score .value { font-size: 28px; font-weight: 700; }
+.ms-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ms-item { display: flex; align-items: center; justify-content: space-between; background: #fafafa; border-radius: 8px; padding: 8px 12px; }
+.ms-item span { color: #666; }
+
+
