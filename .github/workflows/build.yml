@@ -1,48 +1,100 @@
-name: Build
-'on':
+name: CI/CD Pipeline
+
+on:
   push:
     branches:
-      - '*'
+      - master
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+    types: [opened, synchronize, reopened]
+
 jobs:
-  build:
-    name: Build
+  sonar:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 17
+          distribution: temurin
+
       - name: Move Pom.xml to Root
         run: mv .github/workflows/pom.xml ./pom.xml
-      - name: Build and analyze
+
+      - name: SonarQube Scan
         env:
-          GITHUB_TOKEN: >-
-            9efd1a7b-f6a5-4bd4-94dd-33b24da0247e-d3377915-b268-435c-88fd-5753bd253b01
-          SONAR_TOKEN: sqa_bca47d55147cb1b256a213a17c135dfe863be411
-        run: >-
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=iamneo-production_9efd1a7b-f6a5-4bd4-94dd-33b24da0247e-d3377915-b268-435c-88fd-5753bd253b01
-          -Dsonar.login=sqa_bca47d55147cb1b256a213a17c135dfe863be411
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=iamneo-production_9efd1a7b-f6a5-4bd4-94dd-33b24da0247e-d3377915-b268-435c-88fd-5753bd253b01 \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
       - name: Trigger API
         if: always()
-        env:
-          API_URL: '${{ secrets.API_URL }}'
-          API_SECRET: '${{ secrets.API_SECRET }}'
-        run: >
+        run: |
           REPO_NAME=$(echo "${GITHUB_REPOSITORY}" | cut -d '/' -f 2)
-
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{ \"repo_id\": \"$REPO_NAME\", \"branch_name\": \"$BRANCH_NAME\", \"api_secret\": \"${{ secrets.API_SECRET }}\" }" \
+            ${{ secrets.API_URL }}
 
-          API_PAYLOAD="{ \"repo_id\": \"$REPO_NAME\", \"branch_name\":
-          \"$BRANCH_NAME\", \"api_secret\": \"$API_SECRET\" }"
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    needs: sonar
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
-          curl -X POST -H "Content-Type: application/json" -d "$API_PAYLOAD"
-          $API_URL
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Build Spring Boot JAR
+        run: mvn -B clean package -DskipTests
+        working-directory: springapp
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push Spring Boot Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./springapp
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/fifa-backend:latest
+
+      - name: Build & Push React Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./reactapp
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/fifa-frontend:latest
+
+      - name: Deploy to Production Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fifa-backend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fifa-frontend:latest
+            docker stop fifa-backend fifa-frontend || true
+            docker rm fifa-backend fifa-frontend || true
+            docker run -d --name fifa-backend --restart always -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/fifa-backend:latest
+            docker run -d --name fifa-frontend --restart always -p 80:80 ${{ secrets.DOCKER_USERNAME }}/fifa-frontend:latest
