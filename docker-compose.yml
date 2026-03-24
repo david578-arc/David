@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: examly
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD:-examly}
       MYSQL_DATABASE: appdb
     ports:
       - "3306:3306"
@@ -14,18 +14,20 @@ services:
       retries: 5
 
   springapp:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/fifa-backend:latest
     build: ./springapp
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: jdbc:mysql://mysql:3306/appdb?createDatabaseIfNotExist=true
-      DATABASE_USERNAME: root
-      DATABASE_PASSWORD: examly
+      DATABASE_URL: ${DATABASE_URL:-jdbc:mysql://mysql:3306/appdb?createDatabaseIfNotExist=true}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-root}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-examly}
     depends_on:
       mysql:
         condition: service_healthy
 
   reactapp:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/fifa-frontend:latest
     build: ./reactapp
     ports:
       - "80:80"
