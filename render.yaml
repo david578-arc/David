@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: fifa-backend
+    env: java
+    buildCommand: cd springapp && ./mvnw clean package -DskipTests
+    startCommand: java -jar springapp/target/*.jar
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
