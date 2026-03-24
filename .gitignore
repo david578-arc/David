@@ -1,0 +1,6 @@
+springapp/target/
+reactapp/node_modules/
+reactapp/build/
+*.class
+*.jar
+.env
